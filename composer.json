@@ -2,7 +2,7 @@
     "name": "fbohorquez/sql-charts-dashboard",
     "description": "Simple PHP library for create SQL charts dashboard",
     "type": "library",
-    "license": "GPLv3",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "fbohorquez",
