@@ -1,0 +1,20 @@
+{
+    "name": "fbohorquez/sql-charts-dashboard",
+    "description": "Simple PHP library for create SQL charts dashboard",
+    "type": "library",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "fbohorquez",
+            "email": "fbohorquez@dev2bit.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+    },
+    "autoload": {
+        "psr-0": {
+            "SqlChartsDashboard": "src/"
+        }
+    }
+}
