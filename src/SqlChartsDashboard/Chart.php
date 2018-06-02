@@ -12,6 +12,8 @@ abstract class Chart {
 
   public $columns = null;
 
+  public $options = null;
+
   public function __construct ($name, $query = null, $engine = null) {
       $this->name = $name;
       $this->query = $query;
@@ -48,6 +50,15 @@ abstract class Chart {
 
   public function getColumns (){
     return $this->columns;
+  }
+
+  public function setOptions ($options) {
+    $this->options = $options;
+    return $this;
+  }
+
+  public function getOptions () {
+    return $this->options;
   }
 
   public function setQuery ($query, $connection = null) {

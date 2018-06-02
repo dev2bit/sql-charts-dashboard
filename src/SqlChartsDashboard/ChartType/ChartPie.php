@@ -6,8 +6,8 @@ use SqlChartsDashboard\Chart;
 
 use SqlChartsDashboard\SqlChartsDashboardInterface\ChartTypeInterface;
 
-class ChartLine extends Chart implements ChartTypeInterface {
+class ChartPie extends Chart implements ChartTypeInterface {
   public function generate () {
-    return $this->engine->chart_line ($this, $this->query->run());
+    return $this->engine->chart_pie ($this, $this->query->run());
   }
 }
