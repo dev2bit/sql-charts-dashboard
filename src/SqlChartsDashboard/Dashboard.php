@@ -8,15 +8,15 @@ class Dashboard {
 
   private $charts = [];
 
+  private $view = null;
+
   private static $default_connection = null;
+
+  private static $default_view_engine = 'simple';
 
   private static $default_sql_engine = 'mysqli';
 
   private static $default_charts_engine = 'google_charts';
-
-  public function __construct ($name) {
-      $this->name = $name;
-  }
 
   static public function setDefaultConnection ($connection, $user = null, $pass = null, $host = 'localhost', $engine = null) {
     if (is_object ($connection)) {
@@ -32,6 +32,14 @@ class Dashboard {
 
   static public function getDefaultConnection () {
     return static::$default_connection;
+  }
+
+  static public function setDefaultViewEngine ($engine) {
+    static::$default_view_engine = $engine;
+  }
+
+  static public function getDefaultViewEngine () {
+    return static::$default_view_engine;
   }
 
   static public function setDefaultSqlEngine ($engine) {
@@ -50,18 +58,40 @@ class Dashboard {
       return static::$default_charts_engine;
   }
 
+
+  public function __construct ($name, $view = null) {
+      $this->name = $name;
+      if (!$view) {
+        $view = static::getDefaultViewEngine();
+      }
+      if (is_string($view)) {
+        $class_view =  '\\SqlChartsDashboard\ViewEngine\\'.$view;
+        if (class_exists ($class_view)) {
+          $this->view = new $class_view ();
+        }else {
+          //TODO: Exception
+          echo "Error no view engine";
+        }
+      }else if (is_object ($view)) {
+        $this->view = $view;
+      }
+  }
+
+  public function getName () {
+    return $this->name;
+  }
+
+  public function getCharts () {
+    return $this->charts;
+  }
+
   public function addChart ($chart) {
     $this->charts [] = $chart;
     return $this;
   }
 
   public function html () {
-    $r = '<h1 class="dashboard-title">'.$this->name.'</h1>';
-    for ($i = 0, $n = count  ($this->charts); $i < $n; ++$i){
-      $r .= '<div class="dashboard-chart">'.$this->charts[$i]->html().'</div>';
-    }
-    $r .= '<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>';
-    return $r;
+    return $this->view->html ($this);
   }
 
 }

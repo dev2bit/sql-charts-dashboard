@@ -2,9 +2,9 @@
 
 namespace SqlChartsDashboard\SqlEngine;
 
-use SqlChartsDashboard\SqlEngine;
+use SqlChartsDashboard\SqlChartsDashboardInterface\SqlEngineInterface;
 
-class pdomysql implements SqlEngine {
+class pdomysql implements SqlEngineInterface {
 
   private $connection = null;
 

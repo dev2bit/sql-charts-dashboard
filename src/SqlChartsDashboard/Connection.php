@@ -10,8 +10,17 @@ class Connection {
     if (!$engine) {
       $engine = Dashboard::getDefaultSqlEngine ();
     }
-    $class_engine = '\\SqlChartsDashboard\SqlEngine\\'.$engine;
-    $this->db = new $class_engine ($db, $user, $pass, $host);
+    if (is_string ($engine)) {
+      $class_engine = '\\SqlChartsDashboard\SqlEngine\\'.$engine;
+      if (class_exists ($class_engine)) {
+        $this->db = new $class_engine ($db, $user, $pass, $host);
+      }else {
+        //TODO: Exception
+        echo "Error no SQL engine";
+      }
+    }else if (is_object($engine)) {
+      $this->db = $engine;
+    }
   }
 
   public function run ($query) {

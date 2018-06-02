@@ -1,8 +1,8 @@
 <?php
 
-namespace SqlChartsDashboard;
+namespace SqlChartsDashboard\SqlChartsDashboardInterface;
 
-interface SqlEngine {
+interface SqlEngineInterface {
 
   public function __construct ($db, $user, $pass, $host = 'localhost');
 

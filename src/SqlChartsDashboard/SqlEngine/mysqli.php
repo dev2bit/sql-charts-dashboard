@@ -2,9 +2,10 @@
 
 namespace SqlChartsDashboard\SqlEngine;
 
-use SqlChartsDashboard\SqlEngine;
+use SqlChartsDashboard\SqlChartsDashboardInterface\SqlEngineInterface;
 
-class mysqli implements SqlEngine {
+
+class mysqli implements SqlEngineInterface {
 
   private $connection = null;
 
