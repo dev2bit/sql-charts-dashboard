@@ -2,7 +2,7 @@
 
 namespace SqlChartsDashboard;
 
-class Chart {
+abstract class Chart {
 
   public $name = '';
 
@@ -59,9 +59,6 @@ class Chart {
     return $this;
   }
 
-  public function generate () {
-    var_dump($this->query->run());
-    return '';
-  }
+  abstract public function generate ();
 
 }
