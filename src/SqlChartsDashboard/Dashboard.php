@@ -16,7 +16,7 @@ class Dashboard {
 
   private static $default_sql_engine = 'mysqli';
 
-  private static $default_charts_engine = 'google_charts';
+  private static $default_charts_engine = 'gcharts';
 
   static public function setDefaultConnection ($connection, $user = null, $pass = null, $host = 'localhost', $engine = null) {
     if (is_object ($connection)) {
@@ -57,7 +57,6 @@ class Dashboard {
   static public function getDefaultChartsEngine () {
       return static::$default_charts_engine;
   }
-
 
   public function __construct ($name, $view = null) {
       $this->name = $name;
