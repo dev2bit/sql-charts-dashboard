@@ -15,7 +15,10 @@ class simple implements ViewEngineInterface {
       if (!isset($depends[get_class($charts_engine)])){
         $depends [get_class($charts_engine)] = $charts_engine->getDepends();
       }
-      $r .= '<div class="dashboard-chart">'.$charts[$i]->html().'</div>';
+      $r .= '<div class="dashboard-chart">';
+      $r .= '<h2 class="dashboard-chart-title">'.$charts[$i]->getName().'</h2>';
+      $r .= $charts[$i]->generate();
+      $r .= '</div>';
     }
     foreach ($depends as $k => $v) {
       $r .= $v;

@@ -10,27 +10,44 @@ class Chart {
 
   public $engine = null;
 
-  public function __construct ($name, $query = null, $charts_engine = null) {
+  public $columns = null;
+
+  public function __construct ($name, $query = null, $engine = null) {
       $this->name = $name;
       $this->query = $query;
-      if (!$charts_engine) {
-        $charts_engine = Dashboard::getDefaultChartsEngine();
+      if (!$engine) $engine = Dashboard::getDefaultChartsEngine();
+      $this->setChartsEngine($engine);
+  }
+
+  public function setChartsEngine ($engine) {
+    if (is_string($engine)) {
+      $class_engine =  '\\SqlChartsDashboard\ChartsEngine\\'.$engine;
+      if (class_exists ($class_engine)) {
+        $this->engine = new $class_engine ();
+      }else {
+        //TODO: Exception
+        echo "Error no chart engine";
       }
-      if (is_string($charts_engine)) {
-        $class_engine =  '\\SqlChartsDashboard\ChartsEngine\\'.$charts_engine;
-        if (class_exists ($class_engine)) {
-          $this->engine = new $class_engine ();
-        }else {
-          //TODO: Exception
-          echo "Error no chart engine";
-        }
-      }else if (is_object ($charts_engine)) {
-        $this->engine = $charts_engine;
-      }
+    }else if (is_object ($engine)) {
+      $this->engine = $engine;
+    }
   }
 
   public function getChartsEngine () {
     return $this->engine;
+  }
+
+  public function getName () {
+    return $this->name;
+  }
+
+  public function setColumns ($columns) {
+    $this->columns = $columns;
+    return $this;
+  }
+
+  public function getColumns (){
+    return $this->columns;
   }
 
   public function setQuery ($query, $connection = null) {
@@ -42,10 +59,9 @@ class Chart {
     return $this;
   }
 
-  public function html () {
-    $r = '<h2 class="dashboard-chart-title">'.$this->name.'</h2>';
+  public function generate () {
     var_dump($this->query->run());
-    return $r;
+    return '';
   }
 
 }

@@ -4,16 +4,23 @@ namespace SqlChartsDashboard;
 
 class Connection {
 
-  public $db = null;
+  private $db = null;
 
   public function __construct ($db, $user, $pass, $host = 'localhost', $engine = null) {
-    if (!$engine) {
-      $engine = Dashboard::getDefaultSqlEngine ();
-    }
+    if (!$engine) $engine = Dashboard::getDefaultSqlEngine ();
+    $this->setSqlEngine($engine, $db, $user, $pass, $host);
+  }
+
+  public function setSqlEngine ($engine, $db = null, $user = null, $pass = null, $host = 'localhost'){
     if (is_string ($engine)) {
       $class_engine = '\\SqlChartsDashboard\SqlEngine\\'.$engine;
       if (class_exists ($class_engine)) {
-        $this->db = new $class_engine ($db, $user, $pass, $host);
+        if ($db && $user && $pass && $host) {
+          $this->db = new $class_engine ($db, $user, $pass, $host);
+        }else {
+          //TODO: Exception
+          echo "Error no SQL Connection data";
+        }
       }else {
         //TODO: Exception
         echo "Error no SQL engine";
@@ -21,6 +28,10 @@ class Connection {
     }else if (is_object($engine)) {
       $this->db = $engine;
     }
+  }
+
+  public function getSqlEngine () {
+    return $this->db;
   }
 
   public function run ($query) {

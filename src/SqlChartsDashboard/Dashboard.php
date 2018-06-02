@@ -60,20 +60,26 @@ class Dashboard {
 
   public function __construct ($name, $view = null) {
       $this->name = $name;
-      if (!$view) {
-        $view = static::getDefaultViewEngine();
+      if (!$view) $view = static::getDefaultViewEngine();
+      $this->setViewEngine($view);
+  }
+
+  public function setViewEngine ($engine) {
+    if (is_string($engine)) {
+      $class_view =  '\\SqlChartsDashboard\ViewEngine\\'.$engine;
+      if (class_exists ($class_view)) {
+        $this->view = new $class_view ();
+      }else {
+        //TODO: Exception
+        echo "Error no view engine";
       }
-      if (is_string($view)) {
-        $class_view =  '\\SqlChartsDashboard\ViewEngine\\'.$view;
-        if (class_exists ($class_view)) {
-          $this->view = new $class_view ();
-        }else {
-          //TODO: Exception
-          echo "Error no view engine";
-        }
-      }else if (is_object ($view)) {
-        $this->view = $view;
-      }
+    }else if (is_object ($engine)) {
+      $this->view = $engine;
+    }
+  }
+
+  public function getViewEngine () {
+    return $view;
   }
 
   public function getName () {
