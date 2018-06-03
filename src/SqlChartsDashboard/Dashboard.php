@@ -58,8 +58,10 @@ class Dashboard {
       return static::$default_charts_engine;
   }
 
-  public function __construct ($name, $view = null) {
+  public function __construct ($name, $charts = [], $view = null) {
       $this->name = $name;
+      if (!is_array($charts)) $charts = [$charts];
+      $this->charts = $charts;
       if (!$view) $view = static::getDefaultViewEngine();
       $this->setViewEngine($view);
   }

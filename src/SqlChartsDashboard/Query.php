@@ -8,6 +8,8 @@ class Query {
 
   private $sql = null;
 
+  private $response = null;
+
   static private $default_connection = null;
 
   public function __construct ($sql = null, $connection = null) {
@@ -35,7 +37,10 @@ class Query {
   }
 
   public function run () {
-    return $this->response = $this->connection->run ($this->sql);
+    if (!$this->response)
+      return $this->response = $this->connection->run ($this->sql);
+    else
+      return $this->response;
   }
 
 }
