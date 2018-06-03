@@ -236,3 +236,4 @@ echo (
     )
 )->html();
 ```
+![example](https://raw.githubusercontent.com/fbohorquez/sql-charts-dashboard/master/resources/example.png)
