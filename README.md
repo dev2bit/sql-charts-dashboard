@@ -1,5 +1,7 @@
 <p align="center">
-  <img width="200"  src="https://raw.githubusercontent.com/fbohorquez/sql-charts-dashboard/master/resources/logo.png"/>
+<a href="https://www.dev2bit.com">
+  <img width="200" alt="dev2bit"  src="https://raw.githubusercontent.com/fbohorquez/sql-charts-dashboard/master/resources/logo.png"/>
+</a>
 </p>
 
 # sql-charts-dashboard
