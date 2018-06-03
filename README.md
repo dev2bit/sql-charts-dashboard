@@ -236,3 +236,9 @@ echo (
 )->html();
 ```
 ![example](https://raw.githubusercontent.com/fbohorquez/sql-charts-dashboard/master/resources/example.png)
+
+## Autor
+
+Francisco Javier Bohórquez Ogalla
+
+Developed with ♥ by [dev2bit](https://www.dev2bit.com)
