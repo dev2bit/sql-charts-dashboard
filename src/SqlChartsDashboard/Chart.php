@@ -14,10 +14,11 @@ abstract class Chart {
 
   public $options = null;
 
-  public function __construct ($name, $query = null, $columns = null, $engine = null) {
+  public function __construct ($name, $query = null, $columns = null, $options = null, $engine = null) {
       $this->name = $name;
       $this->setQuery($query);
       $this->columns = $columns;
+      $this->options = $options;
       if (!$engine) $engine = Dashboard::getDefaultChartsEngine();
       $this->setChartsEngine($engine);
   }

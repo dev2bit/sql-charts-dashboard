@@ -87,10 +87,18 @@ class gcharts implements ChartsEngineInterface {
   public function chart_simple ($chart, $data) {
     $chart_id = $this->generate_id ($chart);
     $options = $chart->getOptions();
+    $columns = $chart->getColumns ();
     $r = '<div id="chart_container_'.$chart_id.'">';
     $r .= '<p class="chart_single_container">';
-    $val = reset($data[0]);
-    $r .= '<span class="chart_single_value" style="font-size:6em">'.((is_numeric($val))?number_format($val, 2):$val).'</span>';
+    if ($columns) {
+      $key = array_keys($columns)[0];
+      $val = $data[0][$key];
+    }else {
+      $val = reset($data[0]);
+    }
+    $r .= '<span class="chart_single_value" style="font-size:6em">'.
+      ((is_numeric($val))?number_format($val, (isset($options['decimals']) && is_numeric($options['decimals']))?$options['decimals']:2):$val).
+    '</span>';
     if (isset($options['unit']) && is_string($options['unit'])) {
       $r .= ' <span class="chart_single_unit" style="font-size:2em">'.$options['unit'].'</span>';
     }
