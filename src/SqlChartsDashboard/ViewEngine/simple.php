@@ -10,9 +10,14 @@ class simple implements ViewEngineInterface {
     $depends = [];
     $charts = $dashboard->getCharts();
     for ($i = 0, $n = count  ($charts); $i < $n; ++$i){
-      $charts_engine = $charts[$i]->getChartsEngine();
-      if (!isset($depends[get_class($charts_engine)])){
-        $depends [get_class($charts_engine)] = $charts_engine->getDepends();
+      if (!is_array($charts[$i])){
+        $charts[$i] = [$charts[$i]];
+      }
+      for ($j = 0, $m = count($charts[$i]); $j < $m; ++$j){
+        $charts_engine = $charts[$i][$j]->getChartsEngine();
+        if (!isset($depends[get_class($charts_engine)])){
+          $depends [get_class($charts_engine)] = $charts_engine->getDepends();
+        }
       }
     }
     $r = '';
@@ -27,10 +32,23 @@ class simple implements ViewEngineInterface {
     $r .= '<h1 class="dashboard-title">'.$dashboard->getName().'</h1>';
     $charts = $dashboard->getCharts();
     for ($i = 0, $n = count  ($charts); $i < $n; ++$i){
-      $r .= '<div class="dashboard-chart">';
-      $r .= '<h2 class="dashboard-chart-title">'.$charts[$i]->getName().'</h2>';
-      $r .= $charts[$i]->generate();
-      $r .= '</div>';
+      if (is_array($charts[$i])){
+        $r .= '<div class="row">';
+        for ($j = 0, $m = count($charts[$i]); $j < $m; ++$j){
+          $r .= '<div class="col">';
+          $r .= '<div class="dashboard-chart">';
+          $r .= '<h2 class="dashboard-chart-title">'.$charts[$i][$j]->getName().'</h2>';
+          $r .= $charts[$i][$j]->generate();
+          $r .= '</div>';
+          $r .= '</div>';
+        }
+        $r .= '</div>';
+      }else {
+        $r .= '<div class="dashboard-chart">';
+        $r .= '<h2 class="dashboard-chart-title">'.$charts[$i]->getName().'</h2>';
+        $r .= $charts[$i]->generate();
+        $r .= '</div>';
+      }
     }
     return $r;
   }

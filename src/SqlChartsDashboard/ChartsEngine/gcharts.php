@@ -84,4 +84,17 @@ class gcharts implements ChartsEngineInterface {
     return $this->chart_general ($chart, $data, 'Table', 'table');
   }
 
+  public function chart_simple ($chart, $data) {
+    $chart_id = $this->generate_id ($chart);
+    $options = $chart->getOptions();
+    $r = '<div id="chart_container_'.$chart_id.'">';
+    $r .= '<p class="chart_single_container">';
+    $r .= '<span class="chart_single_value" style="font-size:6em">'.reset($data[0]).'</span>';
+    if (isset($options['unit']) && is_string($options['unit'])) {
+      $r .= ' <span class="chart_single_unit" style="font-size:2em">'.$options['unit'].'</span>';
+    }
+    $r .= '</div>';
+    return $r;
+  }
+
 }
