@@ -63,7 +63,7 @@ Dashboard::setDefaultSqlEngine ('pdomysql');
 $c = new Connection ('database', 'user', 'pass', 'localhost');
 ```
 
-mysqli is init deafult SQL engine.
+mysqli is init default SQL engine.
 
 ### Query
 
