@@ -89,7 +89,8 @@ class gcharts implements ChartsEngineInterface {
     $options = $chart->getOptions();
     $r = '<div id="chart_container_'.$chart_id.'">';
     $r .= '<p class="chart_single_container">';
-    $r .= '<span class="chart_single_value" style="font-size:6em">'.reset($data[0]).'</span>';
+    $val = reset($data[0]);
+    $r .= '<span class="chart_single_value" style="font-size:6em">'.((is_numeric($val))?number_format($val, 2):$val).'</span>';
     if (isset($options['unit']) && is_string($options['unit'])) {
       $r .= ' <span class="chart_single_unit" style="font-size:2em">'.$options['unit'].'</span>';
     }
