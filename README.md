@@ -88,7 +88,7 @@ $query = new Query ('SELECT state, COUNT(*) as n FROM offers GROUP BY state');
 ```
 ### Charts
 
-Charts objects represent graphics taht draw in client side. There severals [types of charts](https://github.com/fbohorquez/sql-charts-dashboard/tree/master/src/SqlChartsDashboard/ChartType): line, table, pie, area... You must take class corresponding to type of chart. A Chart has a title, Query and a columns defination.
+Charts objects represent graphics that draw in client side. There severals [types of charts](https://github.com/fbohorquez/sql-charts-dashboard/tree/master/src/SqlChartsDashboard/ChartType): line, table, pie, area... You must take class corresponding to type of chart. A Chart has a title, Query and a columns defination.
 
 ```php
 $query = new Query ('SELECT state, COUNT(*) as n FROM offers GROUP BY state');
@@ -189,7 +189,6 @@ Dashboard::setDefaultConnection ('database', 'user', 'pass', 'localhost');
 
 $query = new Query ('SELECT state, COUNT(*) as n, MAX(pvp) as pvp FROM offers GROUP BY state');
 
-
 echo (
     new Dashboard (
       'example',
@@ -221,7 +220,7 @@ echo (
               ],
               'pvp' => [
                 'type' => 'number',
-                'label' => 'Amount',
+                'label' => 'Max PVP',
               ],
             ]
           )
