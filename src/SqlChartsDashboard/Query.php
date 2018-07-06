@@ -10,6 +10,8 @@ class Query {
 
   private $response = null;
 
+  private $filters = null;
+
   static private $default_connection = null;
 
   public function __construct ($sql = null, $connection = null) {
@@ -36,9 +38,32 @@ class Query {
     return $this;
   }
 
+  public function setFilters ($filters) {
+    $this->filters = $filters;
+  }
+
+  public function filters ($sql) {
+    $f = "";
+    if ($this->filters) {
+      for ($i = 0, $n = count ($this->filters); $i < $n; ++$i) {
+        $this->filters[$i]->postValue();
+        if ($exp = $this->filters[$i]->run()){
+          $f .=  $exp." AND ";
+        }
+      }
+    }
+    $f .= "1 = 1";
+    return str_replace("%filters%", $f, $sql);
+  }
+
   public function run () {
-    if (!$this->response)
-      return $this->response = $this->connection->run ($this->sql);
+    if (!$this->response){
+      $sql = $this->sql;
+      if ($this->filters){
+        $sql = $this->filters($sql);
+      }
+      return $this->response = $this->connection->run ($sql);
+    }
     else
       return $this->response;
   }

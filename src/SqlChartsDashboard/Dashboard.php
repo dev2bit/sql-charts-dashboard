@@ -8,7 +8,13 @@ class Dashboard {
 
   private $charts = [];
 
+  private $filters = [];
+
   private $view = null;
+
+  private $id = null;
+
+  private static $ids = 0;
 
   private static $default_connection = null;
 
@@ -58,12 +64,37 @@ class Dashboard {
       return static::$default_charts_engine;
   }
 
-  public function __construct ($name, $charts = [], $view = null) {
+  public function __construct ($name, $charts = [], $filters = [], $view = null) {
+      $this->id = ++Dashboard::$ids;
       $this->name = $name;
       if (!is_array($charts)) $charts = [$charts];
       $this->charts = $charts;
+      $this->filters = $filters;
       if (!$view) $view = static::getDefaultViewEngine();
       $this->setViewEngine($view);
+      if (is_array($filters)){
+        for ($i = 0, $n = count ($filters); $i < $n; ++$i) {
+          $filters[$i]->setForm($this->id);
+        }
+      }
+      $this->processCharts($this->charts);
+  }
+
+  public function processCharts ($charts) {
+    if (is_array ($charts)) {
+      for ($i = 0, $n = count($charts); $i < $n; ++$i) {
+        if (is_object($charts[$i])){
+          $charts[$i]->setFilters($this->filters);
+        }
+        elseif (is_array($charts[$i])){
+          $this->processCharts($charts[$i]);
+        }
+      }
+    }
+  }
+
+  public function getFilters () {
+    return $this->filters;
   }
 
   public function setViewEngine ($engine) {

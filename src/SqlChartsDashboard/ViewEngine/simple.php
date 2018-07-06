@@ -14,9 +14,11 @@ class simple implements ViewEngineInterface {
         $charts[$i] = [$charts[$i]];
       }
       for ($j = 0, $m = count($charts[$i]); $j < $m; ++$j){
-        $charts_engine = $charts[$i][$j]->getChartsEngine();
-        if (!isset($depends[get_class($charts_engine)])){
-          $depends [get_class($charts_engine)] = $charts_engine->getDepends();
+        if (is_object($charts[$i][$j])){
+          $charts_engine = $charts[$i][$j]->getChartsEngine();
+          if (!isset($depends[get_class($charts_engine)])){
+            $depends [get_class($charts_engine)] = $charts_engine->getDepends();
+          }
         }
       }
     }
@@ -27,8 +29,21 @@ class simple implements ViewEngineInterface {
     return $r;
   }
 
+  public function filters ($dashboard) {
+    $filters = $dashboard->getFilters ();
+    $r = '<form action="#" method="POST">';
+    for ($i = 0, $n = count ($filters); $i < $n; ++$i){
+      $filters[$i]->postValue();
+      $r .= $filters[$i]->html();
+    }
+    $r .= '<button type="submit">Filtar</button>';
+    $r .= '</form>';
+    return $r;
+  }
+
   public function html ($dashboard) {
     $r = $this->depends($dashboard);
+    $r .= $this->filters ($dashboard);
     $r .= '<h1 class="dashboard-title">'.$dashboard->getName().'</h1>';
     $charts = $dashboard->getCharts();
     for ($i = 0, $n = count  ($charts); $i < $n; ++$i){
@@ -43,9 +58,13 @@ class simple implements ViewEngineInterface {
           $r .= '</div>';
         }
         $r .= '</div>';
-      }else {
+      }
+      elseif (is_string($charts[$i])){
+        $r .= '<h2 class="dashboard-subtitle">'.$charts[$i].'</h2>';
+      }
+      else {
         $r .= '<div class="dashboard-chart">';
-        $r .= '<h2 class="dashboard-chart-title">'.$charts[$i]->getName().'</h2>';
+        $r .= '<h3 class="dashboard-chart-title">'.$charts[$i]->getName().'</h3>';
         $r .= $charts[$i]->generate();
         $r .= '</div>';
       }

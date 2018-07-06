@@ -14,6 +14,8 @@ abstract class Chart {
 
   public $options = null;
 
+  public $filters = null;
+
   public function __construct ($name, $query = null, $columns = null, $options = null, $engine = null) {
       $this->name = $name;
       $this->setQuery($query);
@@ -63,12 +65,20 @@ abstract class Chart {
     return $this->options;
   }
 
+  public function setFilters ($filters) {
+    $this->filters = $filters;
+    if (is_object($this->query)) {
+      $this->query->setFilters ($this->filters);
+    }
+  }
+
   public function setQuery ($query, $connection = null) {
     if (is_string ($query)) {
       $this->query = new Query ($query, $connection);
     }else {
       $this->query = $query;
     }
+    $this->query->setFilters ($this->filters);
     return $this;
   }
 
