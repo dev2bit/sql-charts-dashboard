@@ -31,7 +31,7 @@ class simple implements ViewEngineInterface {
 
   public function filters ($dashboard) {
     $filters = $dashboard->getFilters ();
-    $r = '<form action="#" method="POST">';
+    $r = '<form action="#'.$dashbord->id.'" method="POST">';
     for ($i = 0, $n = count ($filters); $i < $n; ++$i){
       $filters[$i]->postValue();
       $r .= $filters[$i]->html();
@@ -44,8 +44,8 @@ class simple implements ViewEngineInterface {
   public function html ($dashboard) {
     $r = $this->depends($dashboard);
     $r .= $this->filters ($dashboard);
-    $r .= '<h1 class="dashboard-title">'.$dashboard->getName().'</h1>';
     $charts = $dashboard->getCharts();
+    $r .= '<h1 id="'.$dashboard->id.'" class="dashboard-title">'.$dashboard->getName().'</h1>';
     for ($i = 0, $n = count  ($charts); $i < $n; ++$i){
       if (is_array($charts[$i])){
         $r .= '<div class="row">';
