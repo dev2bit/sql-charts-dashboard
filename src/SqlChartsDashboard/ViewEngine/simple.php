@@ -31,7 +31,7 @@ class simple implements ViewEngineInterface {
 
   public function filters ($dashboard) {
     $filters = $dashboard->getFilters ();
-    $r = '<form action="#'.$dashbord->id.'" method="POST">';
+    $r = '<form action="#'.$dashboard->id.'" method="POST">';
     for ($i = 0, $n = count ($filters); $i < $n; ++$i){
       $filters[$i]->postValue();
       $r .= $filters[$i]->html();
