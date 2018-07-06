@@ -12,7 +12,7 @@ class Dashboard {
 
   private $view = null;
 
-  private $id = null;
+  public $id = null;
 
   private static $ids = 0;
 
